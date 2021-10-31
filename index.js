@@ -45,6 +45,23 @@ async function run() {
       res.json(cursor);
     });
 
+    // UPDATE status
+    app.put("/booking/status/:id", async (req, res) => {
+      const query = { _id: ObjectId(req.params.id) };
+      const options = { upsert: true };
+      const updatData = {
+        $set: {
+          status: "Approved",
+        },
+      };
+      const result = await bookingCollection.updateOne(
+        query,
+        updatData,
+        options
+      );
+      res.json(result);
+    });
+
     // DELETE API
     app.delete("/myorderdelete/:id", async (req, res) => {
       const id = req.params.id;
